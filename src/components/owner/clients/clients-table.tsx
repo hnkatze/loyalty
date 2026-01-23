@@ -70,103 +70,163 @@ export function ClientsTable({
         <Badge variant="outline" className="w-fit">{clients.length} clientes</Badge>
       </div>
 
-      <div className="border rounded-lg overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Cliente</TableHead>
-              <TableHead className="hidden sm:table-cell">Telefono</TableHead>
-              <TableHead>Balance</TableHead>
-              <TableHead className="hidden md:table-cell">Ultima visita</TableHead>
-              <TableHead className="w-[50px]"></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {clients.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="text-center py-8 text-muted-foreground"
-                >
-                  {searchQuery
-                    ? "No se encontraron clientes"
-                    : "No hay clientes registrados"}
-                </TableCell>
-              </TableRow>
-            ) : (
-              clients.map((client) => (
-                <TableRow
-                  key={client.id}
-                  className="cursor-pointer hover:bg-muted/50"
-                  onClick={() => onViewClient(client)}
-                >
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9">
-                        <AvatarImage
-                          src={client.avatarURL}
-                          alt={client.name}
-                        />
-                        <AvatarFallback>
-                          {getInitials(client.name)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">{client.name}</p>
-                        <p className="text-sm text-muted-foreground">
+      {clients.length === 0 ? (
+        <div className="border rounded-lg text-center py-8 text-muted-foreground">
+          {searchQuery
+            ? "No se encontraron clientes"
+            : "No hay clientes registrados"}
+        </div>
+      ) : (
+        <>
+          {/* Mobile: Card list */}
+          <div className="space-y-3 sm:hidden">
+            {clients.map((client) => (
+              <div
+                key={client.id}
+                className="border rounded-lg p-3 cursor-pointer hover:bg-muted/50 active:bg-muted"
+                onClick={() => onViewClient(client)}
+              >
+                <div className="flex items-start gap-3">
+                  <Avatar className="h-10 w-10 shrink-0">
+                    <AvatarImage src={client.avatarURL} alt={client.name} />
+                    <AvatarFallback>{getInitials(client.name)}</AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="font-medium truncate">{client.name}</p>
+                        <p className="text-sm text-muted-foreground truncate">
                           {client.email}
                         </p>
                       </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          asChild
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onViewClient(client);
+                            }}
+                          >
+                            <Eye className="mr-2 h-4 w-4" />
+                            Ver detalles
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDeleteClient(client);
+                            }}
+                            className="text-destructive"
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Eliminar
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">{client.phone}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">
-                      {establishment?.currencySymbol || "⭐"} {client.balance}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell text-muted-foreground">
-                    {formatDate(client.lastVisit)}
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger
-                        asChild
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onViewClient(client);
-                          }}
-                        >
-                          <Eye className="mr-2 h-4 w-4" />
-                          Ver detalles
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDeleteClient(client);
-                          }}
-                          className="text-destructive"
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Eliminar
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="secondary" className="text-xs">
+                        {establishment?.currencySymbol || "⭐"} {client.balance}
+                      </Badge>
+                      {client.phone && (
+                        <span className="text-xs text-muted-foreground">
+                          {client.phone}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: Table */}
+          <div className="hidden sm:block border rounded-lg overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Cliente</TableHead>
+                  <TableHead>Telefono</TableHead>
+                  <TableHead>Balance</TableHead>
+                  <TableHead className="hidden md:table-cell">Ultima visita</TableHead>
+                  <TableHead className="w-[50px]"></TableHead>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              </TableHeader>
+              <TableBody>
+                {clients.map((client) => (
+                  <TableRow
+                    key={client.id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => onViewClient(client)}
+                  >
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-9 w-9">
+                          <AvatarImage src={client.avatarURL} alt={client.name} />
+                          <AvatarFallback>{getInitials(client.name)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium">{client.name}</p>
+                          <p className="text-sm text-muted-foreground">{client.email}</p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>{client.phone}</TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">
+                        {establishment?.currencySymbol || "⭐"} {client.balance}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-muted-foreground">
+                      {formatDate(client.lastVisit)}
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          asChild
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onViewClient(client);
+                            }}
+                          >
+                            <Eye className="mr-2 h-4 w-4" />
+                            Ver detalles
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDeleteClient(client);
+                            }}
+                            className="text-destructive"
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Eliminar
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </>
+      )}
     </div>
   );
 }

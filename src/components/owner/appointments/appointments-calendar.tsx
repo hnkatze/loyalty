@@ -92,25 +92,28 @@ export function AppointmentsCalendar({
     <div className="space-y-4">
       {/* Header con navegación y filtros */}
       <Card>
-        <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" onClick={goToPreviousDay}>
+        <CardContent className="p-3 sm:p-4">
+          <div className="flex flex-col gap-3">
+            {/* Navegación de fecha */}
+            <div className="flex items-center justify-between gap-2">
+              <Button variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={goToPreviousDay}>
                 <ChevronLeft className="h-4 w-4" />
               </Button>
 
-              <div className="relative">
+              <div className="relative flex-1 min-w-0">
                 <Button
                   variant="outline"
                   onClick={() => setCalendarOpen(!calendarOpen)}
-                  className="min-w-[200px]"
+                  className="w-full text-sm"
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {format(selectedDate, "EEEE, d MMMM", { locale: es })}
+                  <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+                  <span className="truncate">
+                    {format(selectedDate, "EEE, d MMM", { locale: es })}
+                  </span>
                 </Button>
 
                 {calendarOpen && (
-                  <div className="absolute top-full left-0 mt-2 z-50 bg-popover border rounded-md shadow-lg">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 bg-popover border rounded-md shadow-lg">
                     <Calendar
                       mode="single"
                       selected={selectedDate}
@@ -126,48 +129,42 @@ export function AppointmentsCalendar({
                 )}
               </div>
 
-              <Button variant="outline" size="icon" onClick={goToNextDay}>
+              <Button variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={goToNextDay}>
                 <ChevronRight className="h-4 w-4" />
               </Button>
 
               {!isToday && (
-                <Button variant="ghost" size="sm" onClick={goToToday}>
+                <Button variant="ghost" size="sm" onClick={goToToday} className="shrink-0">
                   Hoy
                 </Button>
               )}
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Select
-                value={selectedEmployeeFilter}
-                onValueChange={onEmployeeFilterChange}
-              >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Filtrar por empleado" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos los empleados</SelectItem>
-                  {employees.filter((e) => e.isActive).map((employee) => (
-                    <SelectItem key={employee.id} value={employee.id}>
-                      {employee.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Button onClick={onNewAppointment}>
-                <Plus className="mr-2 h-4 w-4" />
-                Nueva cita
-              </Button>
-            </div>
+            {/* Filtro de empleados */}
+            <Select
+              value={selectedEmployeeFilter}
+              onValueChange={onEmployeeFilterChange}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Filtrar por empleado" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos los empleados</SelectItem>
+                {employees.filter((e) => e.isActive).map((employee) => (
+                  <SelectItem key={employee.id} value={employee.id}>
+                    {employee.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
 
       {/* Lista de citas */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+        <CardHeader className="p-3 sm:p-6">
+          <CardTitle className="flex items-center justify-between text-lg sm:text-xl">
             <span>
               Citas del día ({sortedAppointments.length})
             </span>
@@ -178,7 +175,7 @@ export function AppointmentsCalendar({
             )}
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
           {sortedAppointments.length === 0 ? (
             <div className="text-center py-8">
               <CalendarIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />

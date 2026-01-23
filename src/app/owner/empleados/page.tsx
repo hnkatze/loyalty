@@ -166,13 +166,13 @@ export default function EmpleadosPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <UserCog className="h-8 w-8" />
+        <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
+          <UserCog className="h-6 w-6 md:h-8 md:w-8" />
           Empleados
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-sm md:text-base text-muted-foreground">
           Gestiona los empleados de tu establecimiento y su disponibilidad
         </p>
       </div>
