@@ -78,67 +78,66 @@ export function BusinessHoursForm({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Horarios de Atencion</CardTitle>
+      <CardHeader className="p-3 sm:p-6">
+        <CardTitle className="text-base sm:text-lg">Horarios de Atención</CardTitle>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <CardContent className="p-3 sm:p-6 pt-0 sm:pt-0">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           {DAYS.map(({ key, label }) => (
             <div
               key={key}
-              className="flex items-center gap-4 p-3 rounded-lg border"
+              className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-2.5 sm:p-3 rounded-lg border"
             >
-              <div className="w-24 font-medium">{label}</div>
-
-              <div className="flex items-center gap-2">
-                <Switch
-                  checked={!hours[key]?.closed}
-                  onCheckedChange={(checked) =>
-                    handleDayChange(key, "closed", !checked)
-                  }
-                />
-                <span className="text-sm text-muted-foreground">
-                  {hours[key]?.closed ? "Cerrado" : "Abierto"}
-                </span>
+              {/* Header row: Day name + Switch */}
+              <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-4">
+                <div className="w-20 sm:w-24 font-medium text-sm sm:text-base">{label}</div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={!hours[key]?.closed}
+                    onCheckedChange={(checked) =>
+                      handleDayChange(key, "closed", !checked)
+                    }
+                  />
+                  <span className="text-xs sm:text-sm text-muted-foreground min-w-13">
+                    {hours[key]?.closed ? "Cerrado" : "Abierto"}
+                  </span>
+                </div>
               </div>
 
+              {/* Time inputs row */}
               {!hours[key]?.closed && (
-                <>
-                  <div className="flex items-center gap-2">
-                    <Label htmlFor={`${key}-open`} className="sr-only">
-                      Apertura
-                    </Label>
-                    <Input
-                      id={`${key}-open`}
-                      type="time"
-                      value={hours[key]?.open || "09:00"}
-                      onChange={(e) =>
-                        handleDayChange(key, "open", e.target.value)
-                      }
-                      className="w-32"
-                    />
-                  </div>
-                  <span className="text-muted-foreground">a</span>
-                  <div className="flex items-center gap-2">
-                    <Label htmlFor={`${key}-close`} className="sr-only">
-                      Cierre
-                    </Label>
-                    <Input
-                      id={`${key}-close`}
-                      type="time"
-                      value={hours[key]?.close || "18:00"}
-                      onChange={(e) =>
-                        handleDayChange(key, "close", e.target.value)
-                      }
-                      className="w-32"
-                    />
-                  </div>
-                </>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Label htmlFor={`${key}-open`} className="sr-only">
+                    Apertura
+                  </Label>
+                  <Input
+                    id={`${key}-open`}
+                    type="time"
+                    value={hours[key]?.open || "09:00"}
+                    onChange={(e) =>
+                      handleDayChange(key, "open", e.target.value)
+                    }
+                    className="flex-1 min-w-0 sm:w-32 sm:flex-none h-8 sm:h-10 text-xs sm:text-sm px-2 sm:px-3"
+                  />
+                  <span className="text-[10px] sm:text-sm text-muted-foreground shrink-0">a</span>
+                  <Label htmlFor={`${key}-close`} className="sr-only">
+                    Cierre
+                  </Label>
+                  <Input
+                    id={`${key}-close`}
+                    type="time"
+                    value={hours[key]?.close || "18:00"}
+                    onChange={(e) =>
+                      handleDayChange(key, "close", e.target.value)
+                    }
+                    className="flex-1 min-w-0 sm:w-32 sm:flex-none h-8 sm:h-10 text-xs sm:text-sm px-2 sm:px-3"
+                  />
+                </div>
               )}
             </div>
           ))}
 
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
             {isLoading ? "Guardando..." : "Guardar horarios"}
           </Button>
         </form>

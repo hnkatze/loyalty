@@ -158,13 +158,13 @@ export default function RecompensasPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Gift className="h-8 w-8" />
+        <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+          <Gift className="h-6 w-6 sm:h-8 sm:w-8" />
           Recompensas
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-sm sm:text-base text-muted-foreground">
           Gestiona las recompensas que tus clientes pueden canjear con sus{" "}
           {establishment?.currencyName.toLowerCase()}
         </p>
