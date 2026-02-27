@@ -4,20 +4,22 @@ import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { ServicesTable, ServiceFormDialog } from "@/components/owner/services";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/ui/responsive-dialog";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   getServicesByEstablishment,
   createService,
   updateService,
   deleteService,
 } from "@/lib/firebase/firestore/services";
+import { useFabAction } from "@/hooks/use-fab-action";
 import { toast } from "sonner";
 import { Scissors } from "lucide-react";
 import type { Service } from "@/types";
@@ -55,10 +57,10 @@ export default function ServiciosPage() {
     }
   }, [authLoading, establishment, loadServices]);
 
-  const handleAddService = () => {
+  const handleAddService = useCallback(() => {
     setSelectedService(null);
     setFormOpen(true);
-  };
+  }, []);
 
   const handleEditService = (service: Service) => {
     setSelectedService(service);
@@ -125,19 +127,22 @@ export default function ServiciosPage() {
     }
   };
 
+  // FAB action
+  useFabAction("add-service", handleAddService);
+
   if (authLoading || loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex items-center justify-center min-h-100">
         <div className="animate-spin text-4xl">⏳</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
-          <Scissors className="h-6 w-6 md:h-8 md:w-8" />
+        <h1 className="text-xl font-bold md:text-2xl flex items-center gap-2">
+          <Scissors className="h-5 w-5 md:h-6 md:w-6" />
           Servicios
         </h1>
         <p className="text-sm md:text-base text-muted-foreground">
@@ -145,12 +150,23 @@ export default function ServiciosPage() {
         </p>
       </div>
 
-      <ServicesTable
-        services={services}
-        onEdit={handleEditService}
-        onDelete={handleDeleteClick}
-        onAdd={handleAddService}
-      />
+      {services.length === 0 ? (
+        <EmptyState
+          icon={Scissors}
+          title="Sin servicios"
+          description="Aún no has creado servicios."
+          action={
+            <Button onClick={handleAddService}>Crear servicio</Button>
+          }
+        />
+      ) : (
+        <ServicesTable
+          services={services}
+          onEdit={handleEditService}
+          onDelete={handleDeleteClick}
+          onAdd={handleAddService}
+        />
+      )}
 
       <ServiceFormDialog
         open={formOpen}
@@ -159,16 +175,16 @@ export default function ServiciosPage() {
         onSubmit={handleFormSubmit}
       />
 
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Eliminar servicio</DialogTitle>
-            <DialogDescription>
-              ¿Estás seguro de que deseas eliminar "{serviceToDelete?.name}"?
+      <ResponsiveDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <ResponsiveDialogContent>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>Eliminar servicio</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
+              ¿Estás seguro de que deseas eliminar &quot;{serviceToDelete?.name}&quot;?
               Esta acción no se puede deshacer.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
+          <ResponsiveDialogFooter>
             <Button
               variant="outline"
               onClick={() => setDeleteDialogOpen(false)}
@@ -183,9 +199,9 @@ export default function ServiciosPage() {
             >
               {deleting ? "Eliminando..." : "Eliminar"}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ResponsiveDialogFooter>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     </div>
   );
 }

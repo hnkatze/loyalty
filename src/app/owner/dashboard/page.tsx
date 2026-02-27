@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StatCard } from "@/components/ui/stat-card";
 import { useAuth } from "@/hooks/use-auth";
 import { Users, Gift, Calendar, TrendingUp } from "lucide-react";
 import { getClientsByEstablishment } from "@/lib/firebase/firestore/clients";
@@ -54,7 +55,7 @@ export default function OwnerDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-xl font-bold md:text-2xl">Dashboard</h1>
         <p className="text-muted-foreground">
           Bienvenido, {user?.name || "Dueño"}
           {establishment && (
@@ -63,85 +64,49 @@ export default function OwnerDashboardPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Clientes
-            </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {loading ? "..." : stats.totalClients}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Clientes registrados
-            </p>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
+        <StatCard
+          title="Total Clientes"
+          value={loading ? "..." : stats.totalClients}
+          description="Clientes registrados"
+          icon={Users}
+          gradient="from-primary/5 to-transparent"
+        />
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {establishment?.currencyName || "Puntos"} Hoy
-            </CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {loading ? "..." : (
-                <>
-                  {establishment?.currencySymbol || "⭐"} {stats.pointsToday}
-                </>
-              )}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Otorgados hoy
-            </p>
-          </CardContent>
-        </Card>
+        <StatCard
+          title={`${establishment?.currencyName || "Puntos"} Hoy`}
+          value={
+            loading
+              ? "..."
+              : `${establishment?.currencySymbol || "⭐"} ${stats.pointsToday}`
+          }
+          description="Otorgados hoy"
+          icon={TrendingUp}
+          gradient="from-emerald-500/5 to-transparent"
+        />
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Canjeados Hoy
-            </CardTitle>
-            <Gift className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {loading ? "..." : (
-                <>
-                  {establishment?.currencySymbol || "⭐"} {stats.redemptionsToday}
-                </>
-              )}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Puntos canjeados
-            </p>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="Canjeados Hoy"
+          value={
+            loading
+              ? "..."
+              : `${establishment?.currencySymbol || "⭐"} ${stats.redemptionsToday}`
+          }
+          description="Puntos canjeados"
+          icon={Gift}
+          gradient="from-amber-500/5 to-transparent"
+        />
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Citas Hoy
-            </CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {loading ? "..." : stats.appointmentsToday}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Citas programadas
-            </p>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="Citas Hoy"
+          value={loading ? "..." : stats.appointmentsToday}
+          description="Citas programadas"
+          icon={Calendar}
+          gradient="from-blue-500/5 to-transparent"
+        />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-3 md:gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Proximas Citas</CardTitle>

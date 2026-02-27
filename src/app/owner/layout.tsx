@@ -3,7 +3,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { OwnerSidebar, ownerNavItems, MobileHeader } from "@/components/layout";
+import { Fab } from "@/components/layout/fab";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Skeleton } from "@/components/ui/skeleton";
+import { SkeletonCard } from "@/components/ui/skeleton-patterns";
 import { useAuth } from "@/hooks/use-auth";
 
 export default function OwnerLayout({
@@ -26,8 +29,27 @@ export default function OwnerLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin text-4xl">⏳</div>
+      <div className="min-h-screen flex flex-col md:flex-row">
+        {/* Sidebar placeholder (desktop) */}
+        <div className="hidden md:block w-64 border-r">
+          <div className="p-4 flex flex-col gap-4">
+            <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-3/4" />
+          </div>
+        </div>
+        {/* Header placeholder (mobile) */}
+        <div className="md:hidden h-14 border-b flex items-center px-4">
+          <Skeleton className="h-6 w-32" />
+        </div>
+        {/* Content skeletons */}
+        <div className="flex-1 p-4 md:p-6 flex flex-col gap-4">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
       </div>
     );
   }
@@ -49,8 +71,11 @@ export default function OwnerLayout({
         <header className="hidden md:flex h-14 border-b items-center justify-end px-4">
           <ThemeToggle />
         </header>
-        <main className="flex-1 p-4 md:p-6 overflow-auto">{children}</main>
+        <main className="flex-1 p-4 md:p-6 overflow-auto animate-in fade-in-0 duration-300">
+          {children}
+        </main>
       </div>
+      <Fab />
     </div>
   );
 }

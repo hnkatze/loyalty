@@ -13,7 +13,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Clock, X, Copy } from "lucide-react";
+import { Clock, X, Copy, Gift } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import type { Client, Reward, Redemption } from "@/types";
@@ -125,7 +126,7 @@ export default function RecompensasPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Recompensas</h1>
+        <h1 className="text-xl font-bold md:text-2xl">Recompensas</h1>
         <p className="text-muted-foreground">
           Canjea tus {currencyName.toLowerCase()} por premios
         </p>
@@ -203,15 +204,13 @@ export default function RecompensasPage() {
 
       {/* Lista de recompensas */}
       {rewards.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">
-              No hay recompensas disponibles en este momento
-            </p>
-          </CardContent>
-        </Card>
+        <EmptyState
+          icon={Gift}
+          title="Sin recompensas"
+          description="Aún no hay recompensas disponibles."
+        />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 md:gap-4 md:grid-cols-2 lg:grid-cols-3">
           {rewards.map((reward) => (
             <RewardCard
               key={reward.id}

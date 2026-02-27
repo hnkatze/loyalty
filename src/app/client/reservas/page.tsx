@@ -130,7 +130,7 @@ export default function ReservasPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Reservas</h1>
+        <h1 className="text-xl font-bold md:text-2xl">Reservas</h1>
         <p className="text-muted-foreground">
           Agenda tu próxima visita o revisa tus citas
         </p>

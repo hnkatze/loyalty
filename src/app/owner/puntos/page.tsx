@@ -146,10 +146,10 @@ export default function PuntosPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <QrCode className="h-8 w-8" />
+        <h1 className="text-xl font-bold md:text-2xl flex items-center gap-2">
+          <QrCode className="h-6 w-6 md:h-8 md:w-8" />
           Otorgar Puntos
         </h1>
         <p className="text-muted-foreground">
@@ -157,7 +157,7 @@ export default function PuntosPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-3 md:gap-4 lg:grid-cols-2">
         <div>
           {pageState === "scanning" && (
             <div className="space-y-4">

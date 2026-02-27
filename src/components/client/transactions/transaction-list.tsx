@@ -2,7 +2,8 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, ArrowDown, Gift } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
+import { ArrowUp, ArrowDown, Gift, History } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import type { Transaction } from "@/types";
@@ -18,13 +19,11 @@ export function TransactionList({
 }: TransactionListProps) {
   if (transactions.length === 0) {
     return (
-      <Card>
-        <CardContent className="py-12 text-center">
-          <p className="text-muted-foreground">
-            No tienes transacciones aún
-          </p>
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={History}
+        title="Sin historial"
+        description="Aún no tienes transacciones registradas."
+      />
     );
   }
 

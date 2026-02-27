@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogFooter,
+  ResponsiveDialogDescription,
+} from "@/components/ui/responsive-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Gift, Clock, Copy, AlertCircle } from "lucide-react";
@@ -90,17 +90,17 @@ export function RedeemConfirmationDialog({
   // Mostrar exito con codigo pendiente
   if (redeemCode) {
     return (
-      <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent className="max-w-sm">
-          <DialogHeader className="text-center">
+      <ResponsiveDialog open={open} onOpenChange={handleClose}>
+        <ResponsiveDialogContent className="max-w-sm">
+          <ResponsiveDialogHeader className="text-center">
             <div className="mx-auto mb-4 p-3 rounded-full bg-orange-100 w-fit dark:bg-orange-900">
               <Clock className="h-8 w-8 text-orange-600 dark:text-orange-400" />
             </div>
-            <DialogTitle>Canje Pendiente</DialogTitle>
-            <DialogDescription>
+            <ResponsiveDialogTitle>Canje Pendiente</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
               Has solicitado: {reward.name}
-            </DialogDescription>
-          </DialogHeader>
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
 
           <Card className="bg-muted">
             <CardContent className="py-4 text-center">
@@ -131,26 +131,26 @@ export function RedeemConfirmationDialog({
             </div>
           </div>
 
-          <DialogFooter>
+          <ResponsiveDialogFooter>
             <Button className="w-full" onClick={handleClose}>
               Entendido
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ResponsiveDialogFooter>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     );
   }
 
   // Mostrar confirmacion
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+    <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
+      <ResponsiveDialogContent className="max-w-sm">
+        <ResponsiveDialogHeader>
+          <ResponsiveDialogTitle className="flex items-center gap-2">
             <Gift className="h-5 w-5" />
             Confirmar canje
-          </DialogTitle>
-        </DialogHeader>
+          </ResponsiveDialogTitle>
+        </ResponsiveDialogHeader>
 
         <div className="space-y-4">
           <Card>
@@ -194,7 +194,7 @@ export function RedeemConfirmationDialog({
           </div>
         </div>
 
-        <DialogFooter className="gap-2 sm:gap-0">
+        <ResponsiveDialogFooter className="gap-2 sm:gap-0">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
@@ -205,8 +205,8 @@ export function RedeemConfirmationDialog({
           <Button onClick={handleConfirm} disabled={isSubmitting}>
             {isSubmitting ? "Procesando..." : "Confirmar canje"}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ResponsiveDialogFooter>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }

@@ -8,14 +8,15 @@ import {
   EmployeeAvailabilityForm,
 } from "@/components/owner/employees";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/ui/responsive-dialog";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   getEmployeesByEstablishment,
   createEmployee,
@@ -24,6 +25,7 @@ import {
   deleteEmployee,
 } from "@/lib/firebase/firestore/employees";
 import { getServicesByEstablishment } from "@/lib/firebase/firestore/services";
+import { useFabAction } from "@/hooks/use-fab-action";
 import { toast } from "sonner";
 import { UserCog } from "lucide-react";
 import type { Employee, Service, EmployeeAvailability } from "@/types";
@@ -68,10 +70,10 @@ export default function EmpleadosPage() {
     }
   }, [authLoading, establishment, loadData]);
 
-  const handleAddEmployee = () => {
+  const handleAddEmployee = useCallback(() => {
     setSelectedEmployee(null);
     setFormOpen(true);
-  };
+  }, []);
 
   const handleEditEmployee = (employee: Employee) => {
     setSelectedEmployee(employee);
@@ -157,6 +159,9 @@ export default function EmpleadosPage() {
     }
   };
 
+  // FAB action
+  useFabAction("add-employee", handleAddEmployee);
+
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -166,10 +171,10 @@ export default function EmpleadosPage() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
-          <UserCog className="h-6 w-6 md:h-8 md:w-8" />
+        <h1 className="text-xl font-bold md:text-2xl flex items-center gap-2">
+          <UserCog className="h-5 w-5 md:h-6 md:w-6" />
           Empleados
         </h1>
         <p className="text-sm md:text-base text-muted-foreground">
@@ -177,14 +182,25 @@ export default function EmpleadosPage() {
         </p>
       </div>
 
-      <EmployeesTable
-        employees={employees}
-        services={services}
-        onEdit={handleEditEmployee}
-        onDelete={handleDeleteClick}
-        onEditAvailability={handleEditAvailability}
-        onAdd={handleAddEmployee}
-      />
+      {employees.length === 0 ? (
+        <EmptyState
+          icon={UserCog}
+          title="Sin empleados"
+          description="Aún no has agregado empleados."
+          action={
+            <Button onClick={handleAddEmployee}>Agregar empleado</Button>
+          }
+        />
+      ) : (
+        <EmployeesTable
+          employees={employees}
+          services={services}
+          onEdit={handleEditEmployee}
+          onDelete={handleDeleteClick}
+          onEditAvailability={handleEditAvailability}
+          onAdd={handleAddEmployee}
+        />
+      )}
 
       <EmployeeFormDialog
         open={formOpen}
@@ -201,16 +217,16 @@ export default function EmpleadosPage() {
         onSubmit={handleAvailabilitySubmit}
       />
 
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Eliminar empleado</DialogTitle>
-            <DialogDescription>
-              ¿Estás seguro de que deseas eliminar a "{employeeToDelete?.name}"?
+      <ResponsiveDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <ResponsiveDialogContent>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>Eliminar empleado</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
+              ¿Estás seguro de que deseas eliminar a &quot;{employeeToDelete?.name}&quot;?
               Esta acción no se puede deshacer.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
+          <ResponsiveDialogFooter>
             <Button
               variant="outline"
               onClick={() => setDeleteDialogOpen(false)}
@@ -225,9 +241,9 @@ export default function EmpleadosPage() {
             >
               {deleting ? "Eliminando..." : "Eliminar"}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ResponsiveDialogFooter>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     </div>
   );
 }

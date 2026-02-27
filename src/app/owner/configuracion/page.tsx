@@ -49,15 +49,15 @@ export default function ConfiguracionPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Configuracion</h1>
+        <h1 className="text-xl font-bold md:text-2xl">Configuracion</h1>
         <p className="text-muted-foreground">
           Configura la informacion de tu establecimiento
         </p>
       </div>
 
-      <Tabs defaultValue="info" className="space-y-4">
+      <Tabs defaultValue="info" className="space-y-6">
         <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
           <TabsTrigger value="info" className="flex items-center gap-2">
             <Building2 className="h-4 w-4" />

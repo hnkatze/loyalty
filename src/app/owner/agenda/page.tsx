@@ -9,6 +9,7 @@ import { getActiveEmployees } from "@/lib/firebase/firestore/employees";
 import { getClientsByEstablishment } from "@/lib/firebase/firestore/clients";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useFabAction } from "@/hooks/use-fab-action";
 import { toast } from "sonner";
 import type { Appointment, Service, Employee, Client, AppointmentStatus } from "@/types";
 
@@ -78,6 +79,10 @@ export default function AgendaPage() {
     await loadAppointments(date);
   };
 
+  const handleOpenForm = useCallback(() => {
+    setIsFormOpen(true);
+  }, []);
+
   const handleCreateAppointment = async (data: {
     clientId: string;
     serviceId: string;
@@ -123,6 +128,9 @@ export default function AgendaPage() {
     }
   };
 
+  // FAB action
+  useFabAction("add-appointment", handleOpenForm);
+
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -132,15 +140,15 @@ export default function AgendaPage() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Agenda</h1>
+          <h1 className="text-xl font-bold md:text-2xl tracking-tight">Agenda</h1>
           <p className="text-sm md:text-base text-muted-foreground">
             Gestiona las citas de tu establecimiento
           </p>
         </div>
-        <Button onClick={() => setIsFormOpen(true)} className="w-full sm:w-auto">
+        <Button onClick={handleOpenForm} className="w-full sm:w-auto">
           <Plus className="h-4 w-4 mr-2" />
           Nueva cita
         </Button>
@@ -154,7 +162,7 @@ export default function AgendaPage() {
         selectedDate={selectedDate}
         onDateChange={handleDateChange}
         onStatusChange={handleStatusChange}
-        onNewAppointment={() => setIsFormOpen(true)}
+        onNewAppointment={handleOpenForm}
         selectedEmployeeFilter={selectedEmployeeFilter}
         onEmployeeFilterChange={setSelectedEmployeeFilter}
       />

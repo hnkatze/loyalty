@@ -3,7 +3,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ClientSidebar, clientNavItems, MobileHeader } from "@/components/layout";
+import { BottomTabBar } from "@/components/layout/bottom-tab-bar";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Skeleton } from "@/components/ui/skeleton";
+import { SkeletonCard } from "@/components/ui/skeleton-patterns";
 import { useAuth } from "@/hooks/use-auth";
 
 export default function ClientLayout({
@@ -26,8 +29,17 @@ export default function ClientLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin text-4xl">⏳</div>
+      <div className="min-h-screen flex flex-col">
+        {/* Header placeholder */}
+        <div className="h-14 border-b flex items-center px-4">
+          <Skeleton className="h-6 w-32" />
+        </div>
+        {/* Content skeletons */}
+        <div className="flex-1 p-4 md:p-6 flex flex-col gap-4">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
       </div>
     );
   }
@@ -49,8 +61,11 @@ export default function ClientLayout({
         <header className="hidden md:flex h-14 border-b items-center justify-end px-4">
           <ThemeToggle />
         </header>
-        <main className="flex-1 p-4 md:p-6 overflow-auto">{children}</main>
+        <main className="flex-1 p-4 md:p-6 pb-20 md:pb-0 overflow-auto animate-in fade-in-0 duration-300">
+          {children}
+        </main>
       </div>
+      <BottomTabBar />
     </div>
   );
 }

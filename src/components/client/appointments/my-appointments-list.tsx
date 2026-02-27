@@ -1,7 +1,10 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { AppointmentCardClient } from "./appointment-card-client";
+import { EmptyState } from "@/components/ui/empty-state";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "lucide-react";
+import Link from "next/link";
 import type { Appointment, Service, Employee } from "@/types";
 
 interface MyAppointmentsListProps {
@@ -36,13 +39,16 @@ export function MyAppointmentsList({
 
   if (appointments.length === 0) {
     return (
-      <Card>
-        <CardContent className="py-12 text-center">
-          <p className="text-muted-foreground">
-            No tienes citas programadas
-          </p>
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={Calendar}
+        title="Sin reservas"
+        description="No tienes citas programadas."
+        action={
+          <Button asChild>
+            <Link href="/client/reservas">Reservar cita</Link>
+          </Button>
+        }
+      />
     );
   }
 

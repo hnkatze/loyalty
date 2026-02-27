@@ -13,6 +13,7 @@ import {
   getPendingRedemptionsByEstablishment,
 } from "@/lib/firebase/firestore/redemptions";
 import { toast } from "sonner";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Ticket, Search, CheckCircle, Clock, User, Gift, AlertCircle } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
@@ -136,10 +137,10 @@ export default function CanjesPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Ticket className="h-8 w-8" />
+        <h1 className="text-xl font-bold md:text-2xl flex items-center gap-2">
+          <Ticket className="h-6 w-6 md:h-8 md:w-8" />
           Confirmar Canjes
         </h1>
         <p className="text-muted-foreground">
@@ -147,7 +148,7 @@ export default function CanjesPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-3 md:gap-4 lg:grid-cols-2">
         {/* Buscar codigo */}
         <div className="space-y-4">
           <Card>
@@ -284,9 +285,12 @@ export default function CanjesPage() {
                 Cargando...
               </div>
             ) : pendingRedemptions.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                No hay canjes pendientes
-              </div>
+              <EmptyState
+                icon={Ticket}
+                title="Sin canjes"
+                description="No hay canjes registrados."
+                className="min-h-[200px]"
+              />
             ) : (
               <div className="space-y-3">
                 {pendingRedemptions.map((redemption) => (

@@ -86,7 +86,7 @@ export default function ClientDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Hola, {user?.name || "Cliente"}</h1>
+        <h1 className="text-xl font-bold md:text-2xl">Hola, {user?.name || "Cliente"}</h1>
         <p className="text-muted-foreground">
           {establishment?.name || "Tu programa de lealtad"}
         </p>
@@ -187,8 +187,8 @@ export default function ClientDashboardPage() {
       )}
 
       {/* Acciones rápidas */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card className="hover:border-primary transition-colors cursor-pointer">
+      <div className="grid gap-3 md:gap-4 md:grid-cols-3">
+        <Card className="hover:border-primary active:scale-[0.98] transition-all duration-150 cursor-pointer">
           <Link href="/client/recompensas">
             <CardHeader className="text-center">
               <Gift className="h-8 w-8 mx-auto text-primary" />
@@ -202,7 +202,7 @@ export default function ClientDashboardPage() {
           </Link>
         </Card>
 
-        <Card className="hover:border-primary transition-colors cursor-pointer">
+        <Card className="hover:border-primary active:scale-[0.98] transition-all duration-150 cursor-pointer">
           <Link href="/client/reservas">
             <CardHeader className="text-center">
               <Calendar className="h-8 w-8 mx-auto text-primary" />
@@ -216,7 +216,7 @@ export default function ClientDashboardPage() {
           </Link>
         </Card>
 
-        <Card className="hover:border-primary transition-colors cursor-pointer">
+        <Card className="hover:border-primary active:scale-[0.98] transition-all duration-150 cursor-pointer">
           <Link href="/client/perfil">
             <CardHeader className="text-center">
               <QrCode className="h-8 w-8 mx-auto text-primary" />

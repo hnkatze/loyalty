@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { useFabAction } from "@/hooks/use-fab-action";
 import {
   RewardsTable,
   RewardFormDialog,
@@ -16,6 +17,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   getRewardsByEstablishment,
   createReward,
@@ -66,10 +68,12 @@ export default function RecompensasPage() {
     }
   }, [authLoading, establishment, loadRewards]);
 
-  const handleAddReward = () => {
+  const handleAddReward = useCallback(() => {
     setSelectedReward(null);
     setFormOpen(true);
-  };
+  }, []);
+
+  useFabAction("add-reward", handleAddReward);
 
   const handleEditReward = (reward: Reward) => {
     setSelectedReward(reward);
@@ -158,9 +162,9 @@ export default function RecompensasPage() {
   }
 
   return (
-    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="p-3 sm:p-6 space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+        <h1 className="text-xl font-bold md:text-2xl flex items-center gap-2">
           <Gift className="h-6 w-6 sm:h-8 sm:w-8" />
           Recompensas
         </h1>
@@ -170,6 +174,16 @@ export default function RecompensasPage() {
         </p>
       </div>
 
+      {!loading && rewards.length === 0 ? (
+        <EmptyState
+          icon={Gift}
+          title="Sin recompensas"
+          description="Aún no has creado recompensas."
+          action={
+            <Button onClick={handleAddReward}>Crear recompensa</Button>
+          }
+        />
+      ) : (
       <RewardsTable
         rewards={rewards}
         establishment={establishment}
@@ -177,6 +191,7 @@ export default function RecompensasPage() {
         onDelete={handleDeleteClick}
         onAdd={handleAddReward}
       />
+      )}
 
       <RewardFormDialog
         open={formOpen}

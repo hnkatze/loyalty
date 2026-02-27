@@ -8,17 +8,20 @@ import {
 } from "@/components/owner/clients";
 import { RedeemDialog } from "@/components/owner/rewards";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/ui/responsive-dialog";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { searchClients, deleteClient } from "@/lib/firebase/firestore/clients";
 import { redeemReward } from "@/lib/firebase/firestore/rewards";
+import { useFabAction } from "@/hooks/use-fab-action";
 import { toast } from "sonner";
+import { Users } from "lucide-react";
 import type { Client, Reward } from "@/types";
 
 export default function ClientesPage() {
@@ -114,6 +117,13 @@ export default function ClientesPage() {
     }
   };
 
+  // FAB action for adding clients
+  const openAddClient = useCallback(() => {
+    // Currently the page doesn't have an add client dialog,
+    // but the FAB action is wired for future use
+  }, []);
+  useFabAction("add-client", openAddClient);
+
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -123,22 +133,33 @@ export default function ClientesPage() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold">Clientes</h1>
+        <h1 className="text-xl font-bold md:text-2xl">Clientes</h1>
         <p className="text-sm md:text-base text-muted-foreground">
           Gestiona los clientes de tu establecimiento
         </p>
       </div>
 
-      <ClientsTable
-        clients={clients}
-        establishment={establishment}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        onViewClient={handleViewClient}
-        onDeleteClient={handleDeleteClick}
-      />
+      {clients.length === 0 && !searchQuery ? (
+        <EmptyState
+          icon={Users}
+          title="Sin clientes"
+          description="Aún no tienes clientes registrados."
+          action={
+            <Button onClick={openAddClient}>Agregar cliente</Button>
+          }
+        />
+      ) : (
+        <ClientsTable
+          clients={clients}
+          establishment={establishment}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onViewClient={handleViewClient}
+          onDeleteClient={handleDeleteClick}
+        />
+      )}
 
       <ClientDetailsDialog
         client={selectedClient}
@@ -157,16 +178,16 @@ export default function ClientesPage() {
         onConfirm={handleRedeemConfirm}
       />
 
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Eliminar cliente</DialogTitle>
-            <DialogDescription>
+      <ResponsiveDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <ResponsiveDialogContent>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>Eliminar cliente</ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
               Estas seguro de que deseas eliminar a {clientToDelete?.name}? Esta
               accion no se puede deshacer.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
+          <ResponsiveDialogFooter>
             <Button
               variant="outline"
               onClick={() => setDeleteDialogOpen(false)}
@@ -181,9 +202,9 @@ export default function ClientesPage() {
             >
               {deleting ? "Eliminando..." : "Eliminar"}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ResponsiveDialogFooter>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     </div>
   );
 }

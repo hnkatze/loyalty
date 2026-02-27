@@ -25,6 +25,8 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -48,89 +50,95 @@
 
 :root {
   --radius: 0.625rem;
-  /* Fondos con toque azul sutil */
-  --background: oklch(0.99 0.005 250);
-  --foreground: oklch(0.15 0.02 250);
-  /* Cards con toque azul sutil */
-  --card: oklch(1 0.003 250);
-  --card-foreground: oklch(0.15 0.02 250);
-  --popover: oklch(1 0.003 250);
-  --popover-foreground: oklch(0.15 0.02 250);
-  /* Colores primarios - azul vibrante */
-  --primary: oklch(0.55 0.2 250);
+  /* Fondos con toque violeta cálido */
+  --background: oklch(0.99 0.003 270);
+  --foreground: oklch(0.13 0.015 262);
+  /* Cards con toque violeta cálido */
+  --card: oklch(1 0.002 270);
+  --card-foreground: oklch(0.13 0.015 262);
+  --popover: oklch(1 0.002 270);
+  --popover-foreground: oklch(0.13 0.015 262);
+  /* Colores primarios - violeta vibrante */
+  --primary: oklch(0.55 0.19 262);
   --primary-foreground: oklch(0.985 0 0);
-  /* Secundarios con toque azul */
-  --secondary: oklch(0.96 0.015 250);
-  --secondary-foreground: oklch(0.20 0.03 250);
-  /* Muted con toque azul */
-  --muted: oklch(0.96 0.01 250);
-  --muted-foreground: oklch(0.50 0.02 250);
+  /* Secundarios con toque violeta */
+  --secondary: oklch(0.96 0.012 262);
+  --secondary-foreground: oklch(0.20 0.03 262);
+  /* Muted con toque violeta */
+  --muted: oklch(0.96 0.008 270);
+  --muted-foreground: oklch(0.50 0.02 262);
   /* Accent */
-  --accent: oklch(0.94 0.04 250);
-  --accent-foreground: oklch(0.25 0.08 250);
+  --accent: oklch(0.94 0.035 262);
+  --accent-foreground: oklch(0.25 0.08 262);
   --destructive: oklch(0.577 0.245 27.325);
-  /* Bordes con toque azul */
-  --border: oklch(0.91 0.02 250);
-  --input: oklch(0.91 0.02 250);
-  --ring: oklch(0.55 0.2 250);
+  /* Success */
+  --success: oklch(0.65 0.17 175);
+  --success-foreground: oklch(0.985 0 0);
+  /* Bordes con toque violeta cálido */
+  --border: oklch(0.92 0.015 270);
+  --input: oklch(0.92 0.015 270);
+  --ring: oklch(0.55 0.19 262);
   /* Charts */
-  --chart-1: oklch(0.55 0.2 250);
-  --chart-2: oklch(0.65 0.18 220);
-  --chart-3: oklch(0.45 0.15 280);
-  --chart-4: oklch(0.70 0.15 190);
-  --chart-5: oklch(0.60 0.12 160);
-  /* Sidebar con toque azul */
-  --sidebar: oklch(0.98 0.008 250);
-  --sidebar-foreground: oklch(0.15 0.02 250);
-  --sidebar-primary: oklch(0.55 0.2 250);
+  --chart-1: oklch(0.55 0.19 262);
+  --chart-2: oklch(0.65 0.17 225);
+  --chart-3: oklch(0.45 0.15 290);
+  --chart-4: oklch(0.70 0.15 195);
+  --chart-5: oklch(0.60 0.12 165);
+  /* Sidebar con toque violeta */
+  --sidebar: oklch(0.98 0.006 262);
+  --sidebar-foreground: oklch(0.13 0.015 262);
+  --sidebar-primary: oklch(0.55 0.19 262);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.94 0.04 250);
-  --sidebar-accent-foreground: oklch(0.25 0.08 250);
-  --sidebar-border: oklch(0.91 0.02 250);
-  --sidebar-ring: oklch(0.55 0.2 250);
+  --sidebar-accent: oklch(0.94 0.035 262);
+  --sidebar-accent-foreground: oklch(0.25 0.08 262);
+  --sidebar-border: oklch(0.92 0.015 270);
+  --sidebar-ring: oklch(0.55 0.19 262);
 }
 
 .dark {
-  /* Fondos oscuros con toque azul */
-  --background: oklch(0.14 0.015 250);
-  --foreground: oklch(0.96 0.01 250);
-  /* Cards oscuras con toque azul */
-  --card: oklch(0.18 0.02 250);
-  --card-foreground: oklch(0.96 0.01 250);
-  --popover: oklch(0.18 0.02 250);
-  --popover-foreground: oklch(0.96 0.01 250);
-  /* Primario - azul brillante */
-  --primary: oklch(0.65 0.18 250);
-  --primary-foreground: oklch(0.12 0.02 250);
-  /* Secundarios con toque azul */
-  --secondary: oklch(0.25 0.03 250);
-  --secondary-foreground: oklch(0.96 0.01 250);
-  /* Muted con toque azul */
-  --muted: oklch(0.25 0.025 250);
-  --muted-foreground: oklch(0.65 0.03 250);
+  /* Fondos oscuros con toque violeta */
+  --background: oklch(0.14 0.018 262);
+  --foreground: oklch(0.96 0.01 262);
+  /* Cards oscuras con toque violeta */
+  --card: oklch(0.18 0.022 262);
+  --card-foreground: oklch(0.96 0.01 262);
+  --popover: oklch(0.18 0.022 262);
+  --popover-foreground: oklch(0.96 0.01 262);
+  /* Primario - violeta brillante */
+  --primary: oklch(0.68 0.16 262);
+  --primary-foreground: oklch(0.12 0.02 262);
+  /* Secundarios con toque violeta */
+  --secondary: oklch(0.25 0.028 262);
+  --secondary-foreground: oklch(0.96 0.01 262);
+  /* Muted con toque violeta */
+  --muted: oklch(0.25 0.022 270);
+  --muted-foreground: oklch(0.65 0.03 262);
   /* Accent */
-  --accent: oklch(0.28 0.06 250);
-  --accent-foreground: oklch(0.96 0.01 250);
+  --accent: oklch(0.28 0.06 262);
+  --accent-foreground: oklch(0.96 0.01 262);
   --destructive: oklch(0.704 0.191 22.216);
-  /* Bordes con toque azul */
-  --border: oklch(0.30 0.04 250);
-  --input: oklch(0.28 0.035 250);
-  --ring: oklch(0.65 0.18 250);
+  /* Success */
+  --success: oklch(0.70 0.15 175);
+  --success-foreground: oklch(0.12 0.02 175);
+  /* Bordes con toque violeta */
+  --border: oklch(0.30 0.035 262);
+  --input: oklch(0.28 0.032 262);
+  --ring: oklch(0.68 0.16 262);
   /* Charts */
-  --chart-1: oklch(0.65 0.18 250);
-  --chart-2: oklch(0.55 0.15 220);
-  --chart-3: oklch(0.70 0.12 280);
-  --chart-4: oklch(0.50 0.12 190);
-  --chart-5: oklch(0.60 0.10 160);
-  /* Sidebar con toque azul */
-  --sidebar: oklch(0.16 0.02 250);
-  --sidebar-foreground: oklch(0.96 0.01 250);
-  --sidebar-primary: oklch(0.65 0.18 250);
-  --sidebar-primary-foreground: oklch(0.12 0.02 250);
-  --sidebar-accent: oklch(0.28 0.06 250);
-  --sidebar-accent-foreground: oklch(0.96 0.01 250);
-  --sidebar-border: oklch(0.30 0.04 250);
-  --sidebar-ring: oklch(0.65 0.18 250);
+  --chart-1: oklch(0.68 0.16 262);
+  --chart-2: oklch(0.55 0.14 225);
+  --chart-3: oklch(0.70 0.12 290);
+  --chart-4: oklch(0.50 0.12 195);
+  --chart-5: oklch(0.60 0.10 165);
+  /* Sidebar con toque violeta */
+  --sidebar: oklch(0.16 0.02 262);
+  --sidebar-foreground: oklch(0.96 0.01 262);
+  --sidebar-primary: oklch(0.68 0.16 262);
+  --sidebar-primary-foreground: oklch(0.12 0.02 262);
+  --sidebar-accent: oklch(0.28 0.06 262);
+  --sidebar-accent-foreground: oklch(0.96 0.01 262);
+  --sidebar-border: oklch(0.30 0.035 262);
+  --sidebar-ring: oklch(0.68 0.16 262);
 }
 
 @layer base {
